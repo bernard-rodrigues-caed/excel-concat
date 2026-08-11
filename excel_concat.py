@@ -12,7 +12,8 @@ def validate_output():
     print("")
     print("VALIDAÇÃO".center(10, "="))
     print("\nLendo arquivo consolidado de referência...")
-    df_referencia = pd.read_excel(OUTPUT_FILE)
+    # dtype=str para garantir o dígito 0 à esquerda dos CPFs
+    df_referencia = pd.read_excel(OUTPUT_FILE, dtype=str)
     
     print(f"{len(df_referencia)} linhas encontradas.")
 
@@ -22,7 +23,7 @@ def validate_output():
     print("\nComparando a referência aos arquivos gerados:")
     # Se você quiser verificar se todas as linhas de cada arquivo constam na referência:
     for arq in arquivos:
-        df_atual = pd.read_excel(arq)
+        df_atual = pd.read_excel(arq, dtype=str)
         
         # Verificação se todo dado do DataFrame atual existe no DataFrame de referência
         merged = pd.merge(df_atual, df_referencia, how='inner')
@@ -53,7 +54,7 @@ def main(generate=True, validate=False):
     total_linhas = 0
 
     for arq in arquivos:
-        df = pd.read_excel(arq)
+        df = pd.read_excel(arq, dtype=str)
         colunas = list(df.columns)
 
         if colunas_ref is None:
