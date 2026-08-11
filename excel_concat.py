@@ -10,7 +10,7 @@ OUTPUT_FILE = OUTPUT_DIR / "RNC2026_consolidado.xlsx"
 
 def validate_output():
     print("")
-    print("VALIDAÇÃO".center(10, "="))
+    print("VALIDAÇÃO".center(30, "="))
     print("\nLendo arquivo consolidado de referência...")
     # dtype=str para garantir o dígito 0 à esquerda dos CPFs
     df_referencia = pd.read_excel(OUTPUT_FILE, dtype=str)
