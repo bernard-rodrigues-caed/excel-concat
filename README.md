@@ -40,3 +40,25 @@ python ./excel_concat.py
 ## Output e Validações
 
 O arquivo consolidado será gerado dentro da pasta `output/` e as validações irão garantir que todos os dados encontrados nos arquivos de entrada estão no arquivo de saída.
+
+## Interface gráfica
+
+Também é possível rodar a aplicação com uma interface gráfica (Tkinter, já incluso no Python):
+
+```bash
+python ./gui.py
+```
+
+Escolha a origem dos arquivos `.xlsx`:
+- **Pasta `input/`** (padrão) — mesmo comportamento da linha de comando;
+- **Selecionar arquivos manualmente** — escolha arquivos de qualquer pasta pelo diálogo do sistema.
+
+Depois clique em "Executar". O andamento e eventuais erros aparecem na área de log da janela.
+
+## Gerando o executável (PyInstaller)
+
+```bash
+python -m PyInstaller --onedir --windowed --name RNC_Concat gui.py
+```
+
+O executável e seus arquivos de suporte são gerados em `dist/RNC_Concat/`. Para distribuir, copie a pasta inteira (não só o `.exe`) e crie as pastas `input/` e `output/` ao lado dele.

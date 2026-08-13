@@ -3,23 +3,26 @@ from pathlib import Path
 
 import pandas as pd
 
+# Em executável empacotado (PyInstaller), __file__ aponta para a pasta temporária de extração; usa-se a pasta do .exe
+BASE_DIR = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(__file__).parent
 # Diretórios de entrada e saída de dados
-INPUT_DIR = Path(__file__).parent / "input"
-OUTPUT_DIR = Path(__file__).parent / "output"
+INPUT_DIR = BASE_DIR / "input"
+OUTPUT_DIR = BASE_DIR / "output"
 OUTPUT_FILE = OUTPUT_DIR / "RNC2026_consolidado.xlsx"
 
-def validate_output():
+def validate_output(arquivos=None):
     print("")
     print("VALIDAÇÃO".center(30, "="))
     print("\nLendo arquivo consolidado de referência...")
     # dtype=str para garantir o dígito 0 à esquerda dos CPFs
     df_referencia = pd.read_excel(OUTPUT_FILE, dtype=str)
-    
+
     print(f"{len(df_referencia)} linhas encontradas.")
 
-    # Busca por todos os arquivos .xlsx no diretório de entrada
-    arquivos = sorted(INPUT_DIR.glob("*.xlsx"))
-    
+    # Se nenhuma lista for informada, busca todos os arquivos .xlsx no diretório de entrada
+    if arquivos is None:
+        arquivos = sorted(INPUT_DIR.glob("*.xlsx"))
+
     print("\nComparando a referência aos arquivos gerados:")
     # Se você quiser verificar se todas as linhas de cada arquivo constam na referência:
     for arq in arquivos:
@@ -33,13 +36,17 @@ def validate_output():
             print(f"- [OK] {arq.name}")
             
     print("\nValidação concluída com sucesso!")
+    print("Você pode fechar essa janela.")
 
 
 
-def main(generate=True, validate=False):
-    # Busca por todos os arquivos .xlsx no diretório de entrada
-    arquivos = sorted(INPUT_DIR.glob("*.xlsx"))
-    
+def main(generate=True, validate=False, arquivos=None):
+    # Se nenhuma lista for informada, busca todos os arquivos .xlsx no diretório de entrada
+    if arquivos is None:
+        arquivos = sorted(INPUT_DIR.glob("*.xlsx"))
+    else:
+        arquivos = sorted(arquivos)
+
     if not arquivos:
         sys.exit(f"Nenhum arquivo .xlsx encontrado em {INPUT_DIR}")
 
@@ -109,7 +116,7 @@ def main(generate=True, validate=False):
 
     # Função para validação do arquivo de saída
     if validate:
-        validate_output()
+        validate_output(arquivos)
 
 if __name__ == "__main__":
     main(generate=True, validate=True)
