@@ -2,6 +2,10 @@
 
 Uma aplicação para concatenação e validação dos dados concatenados.
 
+## Instalação direta
+
+Para quem só tem o Python instalado (sem precisar criar o ambiente virtual ou instalar dependências na mão), basta dar duplo clique em `build.bat` — ele cria o `.venv`, instala as dependências e gera o executável.
+
 ## Ambiente virtual
 
 
@@ -57,8 +61,10 @@ Depois clique em "Executar". O andamento e eventuais erros aparecem na área de 
 
 ## Gerando o executável (PyInstaller)
 
+Com o ambiente virtual já ativado:
+
 ```bash
-python -m PyInstaller --onedir --windowed --name RNC_Concat gui.py
+python -m PyInstaller --onedir --windowed --noconfirm --name RNC_Concat gui.py
 ```
 
 O executável e seus arquivos de suporte são gerados em `dist/RNC_Concat/`. Para distribuir, copie a pasta inteira (não só o `.exe`) e crie as pastas `input/` e `output/` ao lado dele.
